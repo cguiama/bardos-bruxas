@@ -103,3 +103,60 @@ Cada sprint foca em um tema de backend:
 - Disponibilizar versão para teste com Docker Compose + Frontend demo  
 
 ---
+
+## 🚀 Como rodar o projeto
+
+### Pré-requisitos
+- [.NET 8 SDK](https://dotnet.microsoft.com/)  
+- [Node.js 20+](https://nodejs.org/)  
+- [Angular CLI 19](https://angular.dev/)  
+- [Docker](https://www.docker.com/)  
+
+### Backend (API + DB + MQ)
+1. Subir infraestrutura:
+   ```bash
+   docker compose up -d
+   ```
+   Isso sobe:
+   - PostgreSQL (porta 5432)
+   - RabbitMQ (porta 5672 + painel em http://localhost:15672)
+
+2. Rodar a API:
+   ```bash
+   dotnet run --project BnB.Api
+   ```
+   API disponível em: [http://localhost:5000/swagger](http://localhost:5000/swagger)  
+
+### Frontend (Angular + PrimeNG)
+1. Instalar dependências:
+   ```bash
+   cd bnb-admin
+   npm install
+   ```
+
+2. Rodar o app:
+   ```bash
+   ng serve --open
+   ```
+   App disponível em: [http://localhost:4200](http://localhost:4200)
+
+---
+
+## 📂 Estrutura (resumida)
+
+```
+BardosBruxas.sln
+BnB.Api/                     -> Web API (Controllers, Swagger)
+BnB.CrossCutting.Ioc/        -> Injeção de dependência, configs comuns
+Modules/
+  Membership/                -> Membros, planos, comandas
+  Pos/                       -> Produtos, vendas, estoque
+  Billing/                   -> Cobranças, pagamentos
+  Conta/                     -> Fluxo de caixa
+  Eventos/                   -> Cadastro e P&L de eventos
+BnB.Tests/                   -> Testes de unidade
+BnB.IntegrationTests/        -> Testes de integração
+docker-compose.yml           -> Infra (Postgres + RabbitMQ)
+bnb-admin/                   -> Frontend Angular (PrimeNG)
+```
+
